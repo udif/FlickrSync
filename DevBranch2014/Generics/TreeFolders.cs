@@ -7,8 +7,26 @@ using System.Drawing;
 using System.IO;
 using TreeViewMS;
 
+
 namespace Common.Controls
 {
+    public class NameComparator : System.Collections.IComparer
+    {
+
+        int IComparer.Compare(Object dir1, Object dir2)
+        {
+
+            //parameter are of type Object, so we have to downcast it to Employee objects
+
+            String dir1Name = ((DirectoryInfo)dir1).Name;
+            String dir2Name = ((DirectoryInfo)dir2).Name;
+
+            //uses compareTo method of String class to compare names of the employee
+
+            return dir1Name.CompareTo(dir2Name);
+        }
+
+    }
     class TreeFolders : TreeViewMS.TreeViewMS
     {
         bool IsEditing = false;
@@ -111,6 +129,8 @@ namespace Common.Controls
 
             DirectoryInfo dirorg = new DirectoryInfo(path);
             DirectoryInfo[] dirs = dirorg.GetDirectories();
+
+            System.Array.Sort(dirs, new NameComparator());
 
             foreach (DirectoryInfo di in dirs)
             {
