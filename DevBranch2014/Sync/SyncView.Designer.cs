@@ -124,7 +124,7 @@ namespace FlickrSync
             this.webBrowserAds.Size = new System.Drawing.Size(485, 70);
             this.webBrowserAds.TabIndex = 6;
             this.webBrowserAds.TabStop = false;
-            this.webBrowserAds.Url = new System.Uri("http://flickrsync.freehostia.com/ad.htm", System.UriKind.Absolute);
+            this.webBrowserAds.Url = new System.Uri("http://www.flickrsync.info/ad.htm", System.UriKind.Absolute);
             this.webBrowserAds.Visible = false;
             this.webBrowserAds.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserAds_Navigating);
             // 

@@ -57,6 +57,8 @@ namespace FlickrSync
             AdsUrlPath = "";
 
             CalcSync();
+            if (FlickrSync.autorun)
+                RunSync();
         }
 
         private void UpdateThumbnails()
@@ -757,6 +759,18 @@ namespace FlickrSync
             }
         }
 
+        public void RunSync()
+
+        {
+            buttonSync.Visible = false;
+            this.Text = "FlickrSync Synchronizing...0%";
+
+            ThreadStart ts = new ThreadStart(ExecuteSync);
+            SyncThread = new Thread(ts);
+            SyncStarted = true;
+            SyncThread.Start();
+        }
+
         public void ExecuteSync()
         {
             try
@@ -1152,12 +1166,7 @@ namespace FlickrSync
                 listViewToSync.Height = listViewToSync.Height - webBrowserAds.Height - 5;
             }
 
-            this.Text = "FlickrSync Synchronizing...0%";
-
-            ThreadStart ts = new ThreadStart(ExecuteSync);
-            SyncThread = new Thread(ts);
-            SyncStarted = true;
-            SyncThread.Start();
+            RunSync();
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)

@@ -289,6 +289,7 @@ namespace FlickrSync
             {
                 Flickr f = new Flickr(Properties.Settings.Default.FlickrApiKey, Properties.Settings.Default.FlickrShared);
                 f.Proxy = GetProxy(true);
+                f.HttpTimeout = 240000;
 
                 OAuthRequestToken requestToken = f.OAuthGetRequestToken("oob");
                 string url = f.OAuthCalculateAuthorizationUrl(requestToken.Token, AuthLevel.Delete);

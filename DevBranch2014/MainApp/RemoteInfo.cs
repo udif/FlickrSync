@@ -43,6 +43,7 @@ namespace FlickrSync
             f.OAuthAccessTokenSecret = oauth.TokenSecret;
 
             f.Proxy = FlickrSync.GetProxy(true);
+            f.HttpTimeout = 240000;
             f.OnUploadProgress += new EventHandler<FlickrNet.UploadProgressEventArgs>(Flickr_OnUploadProgress);
             sets = f.PhotosetsGetList();
             if (sets == null)
