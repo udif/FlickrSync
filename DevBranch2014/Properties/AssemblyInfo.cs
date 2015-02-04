@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("FlickrSync")]
 [assembly: AssemblyDescription("FlickrSync is an application to synchronize your local folders with Flickr")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Pedro Geada")]
+[assembly: AssemblyCompany("Pedro Geada, patched by udif")]
 [assembly: AssemblyProduct("FlickrSync")]
 [assembly: AssemblyCopyright("Copyright ©  2007-2014")]
 [assembly: AssemblyTrademark("")]
