@@ -45,7 +45,6 @@
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AutorunMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewLogMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DonateMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.syncToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -186,7 +185,6 @@
             this.preferencesToolStripMenuItem,
             this.AutorunMenuItem,
             this.ViewLogMenuItem,
-            this.DonateMenuItem,
             this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -228,13 +226,6 @@
             this.ViewLogMenuItem.Text = "View &Log";
             this.ViewLogMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.ViewLogMenuItem_Paint);
             this.ViewLogMenuItem.Click += new System.EventHandler(this.ViewLogMenuItem_Click);
-            // 
-            // DonateMenuItem
-            // 
-            this.DonateMenuItem.Name = "DonateMenuItem";
-            this.DonateMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.DonateMenuItem.Text = "&Donate";
-            this.DonateMenuItem.Click += new System.EventHandler(this.DonateMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -727,7 +718,6 @@
         private System.Windows.Forms.ToolStripMenuItem AutorunMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ViewLogMenuItem;
         private System.Windows.Forms.ToolStripMenuItem organizeSetOnFlickrToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem DonateMenuItem;
 
 
     }

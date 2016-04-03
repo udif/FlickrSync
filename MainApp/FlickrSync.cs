@@ -1184,11 +1184,6 @@ namespace FlickrSync
                 Process.Start(ri.GetPhotosetEditURL(lvi.Name));
         }
 
-        private void DonateMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("To donate, please use Paypal. Any donation is welcomed to support future FlickrSync development and costs. If you donate, please send an email to flickrsync@gmail.com and any further donation requests will be hidden.\nThanks\nFlickrSync Team");
-            Process.Start(Properties.Settings.Default.DonateUrl);
-        }
         #endregion
 
         #region Check out Messages
