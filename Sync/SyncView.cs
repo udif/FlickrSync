@@ -1160,10 +1160,7 @@ namespace FlickrSync
 
             if (show)
             {
-                webBrowserAds.Height = 70;
-                webBrowserAds.Width = listViewToSync.Width;
-                webBrowserAds.Visible = true;
-                listViewToSync.Height = listViewToSync.Height - webBrowserAds.Height - 5;
+                listViewToSync.Height = listViewToSync.Height - 5;
             }
 
             RunSync();
@@ -1208,16 +1205,5 @@ namespace FlickrSync
             }
         }
 
-        private void webBrowserAds_Navigating(object sender, WebBrowserNavigatingEventArgs e)
-        {
-            if (webBrowserAds.Visible && e.Url.ToString()!=Properties.Settings.Default.AdUrl && e.Url.LocalPath!=AdsUrlPath)
-            {
-                e.Cancel = true;
-                System.Diagnostics.Process.Start(e.Url.ToString());
-            }
-
-            if (AdsUrlPath == "")
-                AdsUrlPath = e.Url.LocalPath;
-        }
     }
 }
