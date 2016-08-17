@@ -11,6 +11,7 @@ namespace FlickrSync
         public enum Methods { SyncFilename = 0, SyncDateTaken, SyncTitleOrFilename };
         public enum FilterTypes { FilterNone = 0, FilterIncludeTags, FilterStarRating };
         public enum OrderTypes { OrderDefault = 0, OrderDateTaken, OrderTitle, OrderTag };
+        public enum SetNamings { NamingDefault = 0, NonUniqueSetNames, UniqueSetNames};
 
         public string FolderPath;
         public string SetId;
@@ -25,6 +26,7 @@ namespace FlickrSync
         public bool NoDelete;
         public bool NoDeleteTags;
         public OrderTypes OrderType;
+        public SetNamings SetNaming;
         public bool NoInitialReplace;
 
         public SyncFolder()
@@ -43,6 +45,7 @@ namespace FlickrSync
             NoDelete = Properties.Settings.Default.NoDelete;
             NoDeleteTags = Properties.Settings.Default.NoDeleteTags;
             OrderType = StringToOrderType(Properties.Settings.Default.OrderType);
+            SetNaming = StringToSetNaming(Properties.Settings.Default.SetNaming);
             NoInitialReplace = false;
         }
 
@@ -62,6 +65,7 @@ namespace FlickrSync
             NoDelete = Properties.Settings.Default.NoDelete;
             NoDeleteTags = Properties.Settings.Default.NoDeleteTags;
             OrderType = StringToOrderType(Properties.Settings.Default.OrderType);
+            SetNaming = StringToSetNaming(Properties.Settings.Default.SetNaming);
             NoInitialReplace = false;
         }
 
@@ -87,6 +91,16 @@ namespace FlickrSync
                 return OrderTypes.OrderTitle;
             else
                 return OrderTypes.OrderDefault; //default
+        }
+
+        static public SetNamings StringToSetNaming(string str)
+        {
+            if (str == "UniqueSetNames")
+                return SetNamings.UniqueSetNames;
+            else if (str == "NonUniqueSetNames")
+                return SetNamings.NonUniqueSetNames;
+            else
+                return SetNamings.NamingDefault; //default
         }
 
         public override bool Equals(object sf)
@@ -137,6 +151,7 @@ namespace FlickrSync
                 xml = xml + "    <NoDeleteTags>0</NoDeleteTags>\r";
 
             xml = xml + "    <OrderType>" + OrderType.ToString() + "</OrderType>\r";
+            xml = xml + "    <SetNaming>" + SetNaming.ToString() + "</SetNaming>\r";
 
             if (NoInitialReplace)
                 xml = xml + "    <NoInitialReplace>1</NoInitialReplace>\r";
@@ -200,6 +215,12 @@ namespace FlickrSync
                     else if (nav.Value == "OrderDateTaken") OrderType = OrderTypes.OrderDateTaken;
                     else if (nav.Value == "OrderTitle") OrderType = OrderTypes.OrderTitle;
                     else if (nav.Value == "OrderTag") OrderType = OrderTypes.OrderTag;
+                }
+                else if (nav.Name == "SetNaming")
+                {
+                    if (nav.Value == "NamingDefault") SetNaming = SetNamings.NamingDefault;
+                    else if (nav.Value == "NonUniqueSetNames") SetNaming = SetNamings.NonUniqueSetNames;
+                    else if (nav.Value == "UniqueSetNames") SetNaming = SetNamings.UniqueSetNames;
                 }
                 else if (nav.Name == "NoInitialReplace") NoInitialReplace = nav.ValueAsBoolean;
             } while (nav.MoveToNext());

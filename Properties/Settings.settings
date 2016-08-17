@@ -68,6 +68,9 @@
     <Setting Name="OrderType" Type="System.String" Scope="User">
       <Value Profile="(Default)">OrderDefault</Value>
     </Setting>
+    <Setting Name="SetNaming" Type="System.String" Scope="User">
+      <Value Profile="(Default)">NamingrDefault</Value>
+    </Setting>
     <Setting Name="OAuthToken" Type="FlickrNet.OAuthAccessToken" Scope="User">
       <Value Profile="(Default)" />
     </Setting>

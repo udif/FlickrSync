@@ -54,6 +54,8 @@ namespace FlickrSync
             this.label2 = new System.Windows.Forms.Label();
             this.comboBoxMsgLevel = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.comboBoxSetNaming = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -61,6 +63,8 @@ namespace FlickrSync
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.comboBoxSetNaming);
             this.groupBox1.Controls.Add(this.comboBoxOrderType);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.checkBoxShowThumbnailImages);
@@ -70,7 +74,7 @@ namespace FlickrSync
             this.groupBox1.Controls.Add(this.checkBoxNoDelete);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(423, 143);
+            this.groupBox1.Size = new System.Drawing.Size(423, 173);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Default Synchronization Properties";
@@ -101,7 +105,7 @@ namespace FlickrSync
             // checkBoxShowThumbnailImages
             // 
             this.checkBoxShowThumbnailImages.AutoSize = true;
-            this.checkBoxShowThumbnailImages.Location = new System.Drawing.Point(220, 85);
+            this.checkBoxShowThumbnailImages.Location = new System.Drawing.Point(220, 115);
             this.checkBoxShowThumbnailImages.Name = "checkBoxShowThumbnailImages";
             this.checkBoxShowThumbnailImages.Size = new System.Drawing.Size(170, 17);
             this.checkBoxShowThumbnailImages.TabIndex = 3;
@@ -133,7 +137,7 @@ namespace FlickrSync
             // checkBoxNoDeleteTags
             // 
             this.checkBoxNoDeleteTags.AutoSize = true;
-            this.checkBoxNoDeleteTags.Location = new System.Drawing.Point(12, 108);
+            this.checkBoxNoDeleteTags.Location = new System.Drawing.Point(12, 138);
             this.checkBoxNoDeleteTags.Name = "checkBoxNoDeleteTags";
             this.checkBoxNoDeleteTags.Size = new System.Drawing.Size(160, 17);
             this.checkBoxNoDeleteTags.TabIndex = 4;
@@ -143,7 +147,7 @@ namespace FlickrSync
             // checkBoxNoDelete
             // 
             this.checkBoxNoDelete.AutoSize = true;
-            this.checkBoxNoDelete.Location = new System.Drawing.Point(12, 85);
+            this.checkBoxNoDelete.Location = new System.Drawing.Point(12, 115);
             this.checkBoxNoDelete.Name = "checkBoxNoDelete";
             this.checkBoxNoDelete.Size = new System.Drawing.Size(173, 17);
             this.checkBoxNoDelete.TabIndex = 2;
@@ -154,7 +158,7 @@ namespace FlickrSync
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(257, 426);
+            this.buttonCancel.Location = new System.Drawing.Point(257, 456);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 4;
@@ -165,7 +169,7 @@ namespace FlickrSync
             // buttonOK
             // 
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonOK.Location = new System.Drawing.Point(118, 426);
+            this.buttonOK.Location = new System.Drawing.Point(118, 456);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 3;
@@ -183,7 +187,7 @@ namespace FlickrSync
             this.groupBox3.Controls.Add(this.textBoxProxyHost);
             this.groupBox3.Controls.Add(this.checkBoxUseProxy);
             this.groupBox3.Controls.Add(this.labelPort);
-            this.groupBox3.Location = new System.Drawing.Point(13, 161);
+            this.groupBox3.Location = new System.Drawing.Point(13, 191);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(423, 129);
             this.groupBox3.TabIndex = 1;
@@ -265,7 +269,7 @@ namespace FlickrSync
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.comboBoxMsgLevel);
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Location = new System.Drawing.Point(13, 297);
+            this.groupBox2.Location = new System.Drawing.Point(13, 327);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(422, 117);
             this.groupBox2.TabIndex = 2;
@@ -336,13 +340,35 @@ namespace FlickrSync
             this.label1.TabIndex = 21;
             this.label1.Text = "Messages:";
             // 
+            // comboBoxSetNaming
+            // 
+            this.comboBoxSetNaming.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxSetNaming.FormattingEnabled = true;
+            this.comboBoxSetNaming.Items.AddRange(new object[] {
+            "Original Behavior (Map identically-named directories to same sets)",
+            "Unique set for each directory (may cause non-unique setnames)",
+            "Unique set for each directory (unique set names)"});
+            this.comboBoxSetNaming.Location = new System.Drawing.Point(64, 84);
+            this.comboBoxSetNaming.Name = "comboBoxSetNaming";
+            this.comboBoxSetNaming.Size = new System.Drawing.Size(341, 21);
+            this.comboBoxSetNaming.TabIndex = 26;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 87);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(31, 13);
+            this.label4.TabIndex = 27;
+            this.label4.Text = "Sets:";
+            // 
             // Preferences
             // 
             this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(452, 457);
+            this.ClientSize = new System.Drawing.Size(452, 487);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.buttonCancel);
@@ -391,5 +417,7 @@ namespace FlickrSync
         private System.Windows.Forms.Button buttonLogFile;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBoxOrderType;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox comboBoxSetNaming;
     }
 }

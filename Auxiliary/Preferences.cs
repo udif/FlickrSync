@@ -19,6 +19,7 @@ namespace FlickrSync
         {
             comboBoxMethod.SelectedIndex = (int) SyncFolder.StringToMethod(Properties.Settings.Default.Method);
             comboBoxOrderType.SelectedIndex = (int)SyncFolder.StringToOrderType(Properties.Settings.Default.OrderType);
+            comboBoxSetNaming.SelectedIndex = (int)SyncFolder.StringToOrderType(Properties.Settings.Default.SetNaming);
             checkBoxNoDelete.Checked = Properties.Settings.Default.NoDelete;
             checkBoxNoDeleteTags.Checked = Properties.Settings.Default.NoDeleteTags;
             checkBoxShowThumbnailImages.Checked = Properties.Settings.Default.UseThumbnailImages;
@@ -49,6 +50,7 @@ namespace FlickrSync
 
             Properties.Settings.Default.Method = ((SyncFolder.Methods)comboBoxMethod.SelectedIndex).ToString();
             Properties.Settings.Default.OrderType = ((SyncFolder.OrderTypes)comboBoxOrderType.SelectedIndex).ToString();
+            Properties.Settings.Default.SetNaming = ((SyncFolder.SetNamings)comboBoxSetNaming.SelectedIndex).ToString();
             Properties.Settings.Default.NoDelete = checkBoxNoDelete.Checked;
             Properties.Settings.Default.NoDeleteTags = checkBoxNoDeleteTags.Checked;
             Properties.Settings.Default.UseThumbnailImages = this.checkBoxShowThumbnailImages.Checked;
