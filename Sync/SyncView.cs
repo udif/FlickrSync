@@ -29,7 +29,6 @@ namespace FlickrSync
         ArrayList SyncFolders;
         ArrayList SyncItems;
         static DateTime SyncDate;
-        string AdsUrlPath;
 
         bool SyncStarted = false;
         bool SyncAborted = false;
@@ -54,7 +53,6 @@ namespace FlickrSync
             Tasks = new ArrayList();
             NewSets = new ArrayList();
             SyncFolders = pSyncFolders;
-            AdsUrlPath = "";
 
             CalcSync();
             if (FlickrSync.autorun)
