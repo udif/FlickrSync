@@ -29,6 +29,8 @@ namespace FlickrSync
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.comboBoxSetNaming = new System.Windows.Forms.ComboBox();
             this.comboBoxOrderType = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.checkBoxShowThumbnailImages = new System.Windows.Forms.CheckBox();
@@ -54,8 +56,6 @@ namespace FlickrSync
             this.label2 = new System.Windows.Forms.Label();
             this.comboBoxMsgLevel = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBoxSetNaming = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -78,6 +78,28 @@ namespace FlickrSync
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Default Synchronization Properties";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 87);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(31, 13);
+            this.label4.TabIndex = 27;
+            this.label4.Text = "Sets:";
+            // 
+            // comboBoxSetNaming
+            // 
+            this.comboBoxSetNaming.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxSetNaming.FormattingEnabled = true;
+            this.comboBoxSetNaming.Items.AddRange(new object[] {
+            "Original Behavior (Common sets for identically-named directories)",
+            "Individual set for each directory (may cause non-unique setnames)",
+            "Individual set for each directory (uniquify set names)"});
+            this.comboBoxSetNaming.Location = new System.Drawing.Point(64, 84);
+            this.comboBoxSetNaming.Name = "comboBoxSetNaming";
+            this.comboBoxSetNaming.Size = new System.Drawing.Size(341, 21);
+            this.comboBoxSetNaming.TabIndex = 26;
             // 
             // comboBoxOrderType
             // 
@@ -339,28 +361,6 @@ namespace FlickrSync
             this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 21;
             this.label1.Text = "Messages:";
-            // 
-            // comboBoxSetNaming
-            // 
-            this.comboBoxSetNaming.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxSetNaming.FormattingEnabled = true;
-            this.comboBoxSetNaming.Items.AddRange(new object[] {
-            "Original Behavior (Map identically-named directories to same sets)",
-            "Unique set for each directory (may cause non-unique setnames)",
-            "Unique set for each directory (unique set names)"});
-            this.comboBoxSetNaming.Location = new System.Drawing.Point(64, 84);
-            this.comboBoxSetNaming.Name = "comboBoxSetNaming";
-            this.comboBoxSetNaming.Size = new System.Drawing.Size(341, 21);
-            this.comboBoxSetNaming.TabIndex = 26;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 87);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(31, 13);
-            this.label4.TabIndex = 27;
-            this.label4.Text = "Sets:";
             // 
             // Preferences
             // 

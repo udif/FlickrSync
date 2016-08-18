@@ -640,18 +640,58 @@ namespace FlickrSync
                 }
 
                 SyncFolder sf = new SyncFolder(e.Node.Name);
-                
-                //try to match Set name
-                foreach (Photoset ps in FlickrSync.ri.GetAllSets())
+                string basename = Path.GetFileName(e.Node.Name);
+
+                switch (sf.SetNaming)
                 {
-                    if (ps.Title.Equals(Path.GetFileName(e.Node.Name),StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        sf.SetId = ps.PhotosetId;
+                    case SyncFolder.SetNamings.NamingDefault:
+                        //try to match Set name
+                        foreach (Photoset ps in FlickrSync.ri.GetAllSets())
+                        {
+                            if (ps.Title.Equals(basename, StringComparison.CurrentCultureIgnoreCase))
+                            {
+                                sf.SetId = ps.PhotosetId;
+                                break;
+                            }
+                        }
+                        if (sf.SetId == "")
+                            sf.SetTitle = basename;
                         break;
-                    }
+
+                    case SyncFolder.SetNamings.NonUniqueSetNames:
+                        sf.SetTitle = basename;
+                        break;
+
+                    case SyncFolder.SetNamings.UniqueSetNames:
+                        sf.SetTitle = basename;
+                        string re = basename + "(?: \\((\\d+)\\))?$";
+                        System.Text.RegularExpressions.Match match;
+                        int title_index = 0;
+                        int val;
+                        foreach (Photoset ps in FlickrSync.ri.GetAllSets())
+                        {
+                            // match for an existing photoset title with an options " (NNN)" suffix.
+                            match = System.Text.RegularExpressions.Regex.Match(ps.Title, re, System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                            // no match, keep trying
+                            if (!match.Success)
+                                continue;
+                            // matched, but without the suffix
+                            if (match.Captures.Count == 1)
+                            {
+                                // create our own suffix with " (1)" unless we already encountered something higher
+                                title_index = Math.Max(title_index, 1);
+                                continue;
+                            }
+                            // matched with suffix, set tltle_index to be 1 more than the matched suffix or the current title_index,
+                            // whichever is higher
+                            title_index = Math.Max(title_index, Int32.Parse(match.Groups[0].Value));
+                        }
+                        // if title_index is 0, it means we haven't encountered an existing title that matches this one
+                        if (title_index > 0)
+                            sf.SetTitle += System.String.Format(" ({0})", title_index);
+                        break;
+
                 }
-                if (sf.SetId == "")
-                    sf.SetTitle = Path.GetFileName(e.Node.Name);
 
                 if (syncprop_status == SyncPropertiesStatus.OKAll)
                 {
