@@ -67,9 +67,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FlickrNet, Version=3.22.0.0, Culture=neutral, PublicKeyToken=2491df59efa5d132, processorArchitecture=MSIL">
-      <HintPath>packages\FlickrNet.3.22.0\lib\net20\FlickrNet.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="FlickrNet, Version=3.24.0.0, Culture=neutral, PublicKeyToken=2491df59efa5d132, processorArchitecture=MSIL">
+      <HintPath>packages\FlickrNet.3.24.0\lib\net20\FlickrNet.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -136,9 +135,7 @@
       <DependentUpon>SelectFromList.cs</DependentUpon>
     </Compile>
     <Compile Include="Generics\sortLastWriteHelper.cs" />
-    <Compile Include="Generics\TreeFolders.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Generics\TreeFolders.cs" />
     <Compile Include="Generics\TreeViewMS.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -284,12 +281,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Micro?oft.Common.targets.
   <Target Name="BeforeBuild">
