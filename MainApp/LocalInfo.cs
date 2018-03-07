@@ -1,10 +1,10 @@
 using System;
-using System.Text;
 using System.Collections;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.XPath;
 using System.IO;
+using System.Collections.Generic;
 
 namespace FlickrSync
 {
@@ -72,7 +72,8 @@ namespace FlickrSync
         public void LoadFromXML(string xml)
         {
             // current search/replace pattern in case base directory has moved
-            string oldpath = "", newpath = "";
+            List<string> oldpath = new List<string>();
+            List<string> newpath = new List<string>();
 
             XmlDocument xmldoc = new XmlDocument();
             xmldoc.LoadXml(xml);
@@ -86,17 +87,23 @@ namespace FlickrSync
                 sf.LoadFromXPath(nav2);
 
                 DirectoryInfo dir = new DirectoryInfo(sf.FolderPath);
-                if (!dir.Exists && newpath != "" && sf.FolderPath.StartsWith(oldpath))
+                if (!dir.Exists && oldpath.Count > 0)
                 {
-                    // Directory no longer exists, but it seems that we might be able to find its new location,
-                    // based on an alternate directory location we got from a previously missing directory
-                    string potentialFolderPath = sf.FolderPath.Replace(oldpath, newpath); // replace prefix as we did last time
-                    dir = new DirectoryInfo(potentialFolderPath);
-                    // Have we succeeded? silently replace prefix
-                    if (dir.Exists)
+                    for (int i = 0; i < oldpath.Count; i++)
                     {
-                        FlickrSync.Log(FlickrSync.LogLevel.LogAll, "Replaced " + sf.FolderPath + " with " + potentialFolderPath + " based on previous alternate directory location");
-                        sf.FolderPath = potentialFolderPath;
+                        if (sf.FolderPath.StartsWith(oldpath[i]))
+                        {
+                            // Directory no longer exists, but it seems that we might be able to find its new location,
+                            // based on an alternate directory location we got from a previously missing directory
+                            string potentialFolderPath = sf.FolderPath.Replace(oldpath[i], newpath[i]); // replace prefix as we did last time
+                            dir = new DirectoryInfo(potentialFolderPath);
+                            // Have we succeeded? silently replace prefix
+                            if (dir.Exists)
+                            {
+                                FlickrSync.Log(FlickrSync.LogLevel.LogAll, "Replaced " + sf.FolderPath + " with " + potentialFolderPath + " based on previous alternate directory location");
+                                sf.FolderPath = potentialFolderPath;
+                            }
+                        }
                     }
                 }
                 if (!dir.Exists)
@@ -137,10 +144,11 @@ namespace FlickrSync
                                 }
                                 Array.Resize<string>(ref oldpaths, oldindex + 1);
                                 Array.Resize<string>(ref newpaths, newindex + 1);
-                                oldpath = String.Join(Path.DirectorySeparatorChar.ToString(), oldpaths);
-                                newpath = String.Join(Path.DirectorySeparatorChar.ToString(), newpaths);
+                                oldpath.Add(String.Join(Path.DirectorySeparatorChar.ToString(), oldpaths));
+                                newpath.Add(String.Join(Path.DirectorySeparatorChar.ToString(), newpaths));
                                 FlickrSync.Log(FlickrSync.LogLevel.LogAll, sf.FolderPath + "replaced by " + cofd.FileName.ToString() + " in the configuration");
                                 FlickrSync.Log(FlickrSync.LogLevel.LogAll, "From now on, we will try replacing " + oldpath + " by " + newpath);
+                                sf.FolderPath = cofd.FileName.ToString();
                                 continue;
                             }
                             else
