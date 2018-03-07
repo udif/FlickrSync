@@ -5,6 +5,7 @@ using System.Xml;
 using System.Xml.XPath;
 using System.IO;
 using System.Collections.Generic;
+using InfoBox;
 
 namespace FlickrSync
 {
@@ -72,14 +73,13 @@ namespace FlickrSync
         public void LoadFromXML(string xml)
         {
             // current search/replace pattern in case base directory has moved
-            List<string> oldpath = new List<string>();
-            List<string> newpath = new List<string>();
+            List<SearchReplace> paths = new List<SearchReplace>();
 
             XmlDocument xmldoc = new XmlDocument();
             xmldoc.LoadXml(xml);
             XPathNavigator nav = xmldoc.CreateNavigator();
             XPathNodeIterator iterator=nav.Select("/FlickrSync/SyncFolder");
-
+            
             while (iterator.MoveNext())
             {
                 SyncFolder sf=new SyncFolder();
@@ -87,21 +87,22 @@ namespace FlickrSync
                 sf.LoadFromXPath(nav2);
 
                 DirectoryInfo dir = new DirectoryInfo(sf.FolderPath);
-                if (!dir.Exists && oldpath.Count > 0)
+                if (!dir.Exists && paths.Count > 0)
                 {
-                    for (int i = 0; i < oldpath.Count; i++)
+                    for (int i = 0; i < paths.Count; i++)
                     {
-                        if (sf.FolderPath.StartsWith(oldpath[i]))
+                        if (sf.FolderPath.StartsWith(paths[i].oldpath))
                         {
                             // Directory no longer exists, but it seems that we might be able to find its new location,
                             // based on an alternate directory location we got from a previously missing directory
-                            string potentialFolderPath = sf.FolderPath.Replace(oldpath[i], newpath[i]); // replace prefix as we did last time
+                            string potentialFolderPath = sf.FolderPath.Replace(paths[i].oldpath, paths[i].newpath); // replace prefix as we did last time
                             dir = new DirectoryInfo(potentialFolderPath);
                             // Have we succeeded? silently replace prefix
                             if (dir.Exists)
                             {
                                 FlickrSync.Log(FlickrSync.LogLevel.LogAll, "Replaced " + sf.FolderPath + " with " + potentialFolderPath + " based on previous alternate directory location");
                                 sf.FolderPath = potentialFolderPath;
+                                paths[i].use_count++;
                             }
                         }
                     }
@@ -110,46 +111,28 @@ namespace FlickrSync
                 {
                     if (FlickrSync.messages_level!=FlickrSync.MessagesLevel.MessagesNone) 
                     {
-                        if (MessageBox.Show("Folder " + sf.FolderPath + " no longer exists. Remove from configuration?", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        InformationBoxResult r = InformationBox.Show(
+                            "Folder " + sf.FolderPath + " no longer exists. Remove from list of folders to sync?",
+                            "Folder not found", InformationBoxButtons.YesNoUser1, new string[] { "Find on disk", String.Empty }, InformationBoxIcon.Exclamation, InformationBoxDefaultButton.Button2);
+                        if (r == InformationBoxResult.Yes)
                         {
                             FlickrSync.Log(FlickrSync.LogLevel.LogAll,sf.FolderPath + "marked for removal from configuration");
                             continue;
                         }
-                        else if (MessageBox.Show("Replace Folder " + sf.FolderPath + " with a different location?", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        else if (r == InformationBoxResult.User1)
                         {
-                            string[] oldpaths = sf.FolderPath.Split(new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar });
                             Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog cofd = new Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog();
-                            cofd.InitialDirectory = oldpaths[oldpaths.Length-1];
+                            //cofd.InitialDirectory = oldpaths[oldpaths.Length-1];
                             cofd.Multiselect = false;
                             cofd.IsFolderPicker = true;
                             if (cofd.ShowDialog() == Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.Ok)
                             {
-                                string[] newpaths = cofd.FileName.ToString().Split(new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar });
-                                int oldindex = oldpaths.Length - 1;
-                                int newindex = newpaths.Length - 1;
-                                // Loop while we still have something to work with on both old and new
-                                while (oldindex >= 1 && newindex >= 1)
-                                {
-                                    if (oldpaths[oldindex] == newpaths[newindex])
-                                    {
-                                        // If this part is common, it is not part of the search/replace pattern
-                                        oldindex--;
-                                        newindex--;
-                                        continue;
-                                    }
-                                    else
-                                    {
-                                        break;
-                                    }
-                                }
-                                Array.Resize<string>(ref oldpaths, oldindex + 1);
-                                Array.Resize<string>(ref newpaths, newindex + 1);
-                                oldpath.Add(String.Join(Path.DirectorySeparatorChar.ToString(), oldpaths));
-                                newpath.Add(String.Join(Path.DirectorySeparatorChar.ToString(), newpaths));
-                                FlickrSync.Log(FlickrSync.LogLevel.LogAll, sf.FolderPath + "replaced by " + cofd.FileName.ToString() + " in the configuration");
-                                FlickrSync.Log(FlickrSync.LogLevel.LogAll, "From now on, we will try replacing " + oldpath + " by " + newpath);
-                                sf.FolderPath = cofd.FileName.ToString();
-                                continue;
+                                string newfolderpath = cofd.FileName.ToString();
+                                SearchReplace p = new SearchReplace(sf.FolderPath, newfolderpath);
+                                paths.Add(p);
+                                FlickrSync.Log(FlickrSync.LogLevel.LogAll, sf.FolderPath + "replaced by " + newfolderpath + " in the configuration");
+                                FlickrSync.Log(FlickrSync.LogLevel.LogAll, "From now on, we will try replacing " + p.oldpath + " by " + p.newpath);
+                                sf.FolderPath = newfolderpath;
                             }
                             else
                             {
@@ -165,6 +148,13 @@ namespace FlickrSync
                 SyncFolders.Add(sf);
             }
 
+            foreach (var p in paths)
+            {
+                if (p.use_count > 0)
+                {
+                    MessageBox.Show("Replaced Folder prefix " + p.oldpath + " with " + p.newpath + ((p.use_count == 1) ? " once" : " " + p.use_count.ToString() + " times"), "Info", MessageBoxButtons.OK);
+                }
+            }
             iterator = nav.Select("/FlickrSync/PathInfo");
 
             while (iterator.MoveNext())
